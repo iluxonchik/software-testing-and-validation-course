@@ -1,6 +1,8 @@
 package ap;
 
 import static org.testng.Assert.*;
+
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 public class TestCalculator {
@@ -141,6 +143,56 @@ public class TestCalculator {
         int res = calc.sum(A, B);
 
         assertEquals(res, EXPECTED);
+    }
+
+
+    /*
+        For division tests, using DataProvider.
+    */
+
+    @DataProvider
+    private Object[][] divisionDPOkay (){
+        return new Object[][] {
+                {new Calculator("Calc"), 4, 2, 2},
+                {new Calculator("Calc"), 1, 2, 0},
+                {new Calculator("Calc"), null, 1992, 0},
+                {new Calculator("Calc"), -1 , 2, 0},
+                {new Calculator("Calc"), 2 , -2, -1}
+        };
+    }
+
+    @Test(dataProvider = "divisionDPOkay")
+    public void testDivisionWithDPOkay(Calculator calc, Integer a, Integer b, Integer expected) {
+        Integer res = calc.divide(a, b);
+        assertEquals(res, expected);
+    }
+
+    @Test
+    public void testDivisionByZero() {
+        final int A = 4;
+        final int B = 0;
+
+        Calculator calc = new Calculator("Calc");
+        try {
+            int res = calc.divide(A, B);
+            fail("Division by zero should've failed.");
+        } catch (IllegalArgumentException e) {
+            // success
+        }
+    }
+
+    @Test
+    public void testDivisionByZeroSecondArgNull() {
+        final int A = 4;
+        final Integer B = null;
+
+        Calculator calc = new Calculator("Calc");
+        try {
+            int res = calc.divide(A, B);
+            fail("Division by zero should've failed.");
+        } catch (IllegalArgumentException e) {
+            // success
+        }
     }
 
 }
