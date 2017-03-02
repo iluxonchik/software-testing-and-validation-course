@@ -46,6 +46,17 @@ public class Calculator {
      * @throws IllegalArgumentException if b is 0.
       **/
     public Integer divide(Integer a, Integer b) {
+        if (a == null) {
+             a = 0;
+        }
+
+        if (b == null) {
+            b = 0;
+        }
+
+        if (b == 0) {
+            throw  new IllegalArgumentException("Division by zero.");
+        }
         return a / b;
     }
 
