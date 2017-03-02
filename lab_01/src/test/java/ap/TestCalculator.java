@@ -163,8 +163,17 @@ public class TestCalculator {
 
     @Test(dataProvider = "divisionDPOkay")
     public void testDivisionWithDPOkay(Calculator calc, Integer a, Integer b, Integer expected) {
-        Integer res = calc.divide(a, b);
-        assertEquals(res, expected);
+        /*
+            "mvn test" doesn't show with wich values the test failed, when using DataProviders.
+            This "try/catch", combined with the error message in assertEquals() is a workaround for this.
+        */
+        try {
+            Integer res = calc.divide(a, b);
+            assertEquals(res, expected, "a = " + a + " b = " + b + " expected = " + expected);
+        } catch (Throwable t) {
+            fail("testDivisionWithDPOkay threw \"" + t.getClass().getCanonicalName() + "\" when called with arguments "
+            + "a = " + a + " b = " + b + " expected = " + expected);
+        }
     }
 
     @Test
